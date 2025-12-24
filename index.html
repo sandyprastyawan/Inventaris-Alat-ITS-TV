@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaris Alat - ITS TV</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div id="formPage" class="card">
+            <div class="header-section">
+                <h2>Inventaris alat</h2>
+                <p>Silakan scan barcode barang Anda</p>
+            </div>
+            
+            <form id="inventoryForm">
+                <div class="input-row">
+                    <label>Kode Alat</label>
+                    <input type="text" id="kode_alat" placeholder="Menunggu scan..." autofocus required autocomplete="off">
+                </div>
+
+                <div class="input-row">
+                    <label>Nama Alat</label>
+                    <input type="text" id="nama_alat" placeholder="Terisi otomatis setelah scan" readonly>
+                </div>
+
+                <div class="input-row">
+                    <label>Jumlah Alat</label>
+                    <input type="number" id="jumlah_alat" min="1" placeholder="0" required>
+                </div>
+
+                <div class="input-row">
+                    <label>Status</label>
+                    <select id="status" required>
+                        <option value="" disabled selected>Pilih status...</option>
+                        <option value="IN">Check In</option>
+                        <option value="OUT">Check Out</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="submitBtn" class="btn-primary">SUBMIT DATA</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="resultPage" class="card hidden">
+            <div class="header-result">
+                
+                <h3 class="success-title">✅ Update Berhasil</h3>
+            </div>
+
+            <div class="result-table">
+                <div class="res-row">
+                    <span class="res-label">Barang</span>
+                    <span class="res-value" id="resNama"></span>
+                </div>
+                <div class="res-row">
+                    <span class="res-label">Kode</span>
+                    <span class="res-value" id="resKode"></span>
+                </div>
+                <div class="res-row">
+                    <span class="res-label">Check</span>
+                    <span class="res-value" id="resStatus"></span>
+                </div>
+                <div class="res-row">
+                    <span class="res-label">Jumlah</span>
+                    <span class="res-value" id="resJumlah"></span>
+                </div>
+            </div>
+
+            <div class="stok-box">
+                <span>Stok Akhir</span>
+                <span id="resSisa" class="stok-count">0</span>
+            </div>
+
+            
+
+            <button onclick="resetHalaman()" class="btn-secondary">SUBMIT LAGI</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

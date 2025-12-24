@@ -1,0 +1,187 @@
+:root {
+    --primary-blue: #3498db;
+    --success-green: #27ae60;
+    --text-dark: #333;
+    --text-gray: #7f8c8d;
+    --bg-light: #f0f2f5;
+    --border-color: #ecf0f1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.header-section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: var(--text-dark);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Form Layout */
+.input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.input-row label {
+    flex: 0 0 120px;
+    font-size: 14px;
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+input, select {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    background-color: #fff;
+}
+
+/* Button Styling */
+.button-group {
+    margin-top: 30px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: #ebf2fa;
+    color: #5d6d7e;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #d6e4f1;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Result Styling */
+.header-result {
+    text-align: center;
+    margin-bottom:5px;
+    
+}
+
+.logo {
+    width: 20px !important;
+    height: 5px;
+    margin-bottom: 5px !important;
+    text-align: center;
+}
+
+.success-title {
+    color: var(--success-green);
+    font-size: 20px;
+    text-align: center;
+}
+
+.result-table {
+    margin: 25px 0;
+}
+
+.res-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.res-label {
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.res-value {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.stok-box {
+    background-color: #f8fbff;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.stok-count {
+    color: var(--primary-blue);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.footer-info {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    color: var(--text-gray);
+}
+
+.email-text {
+    font-weight: 600;
+}
+
+.hidden {
+    display: none;
+}
