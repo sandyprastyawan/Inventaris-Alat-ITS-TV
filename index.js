@@ -3,9 +3,8 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
     handleFormSubmit();
 });
 
-function handleFormSubmit() {
+async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
-    
     const payload = {
         kode: document.getElementById('kode_alat').value,
         jumlah: document.getElementById('jumlah_alat').value,
@@ -15,23 +14,36 @@ function handleFormSubmit() {
     btn.innerText = "Memproses...";
     btn.disabled = true;
 
-    // Simulasi jeda 1 detik
-    setTimeout(() => {
-        tampilkanHasil(payload);
-    }, 3000);
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            // result.namaBarang dan result.stokSisa diambil dari sheet MASTER melalui doPost
+            tampilkanHasil(payload, result.namaBarang, result.stokSisa);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Gagal mengirim data.");
+        btn.disabled = false;
+        btn.innerText = "SUBMIT DATA";
+    }
 }
 
-function tampilkanHasil(data) {
-    // Isi data ke halaman hasil
+function tampilkanHasil(data, namaDariMaster, stokAkhir) {
     document.getElementById('resKode').innerText = data.kode;
+    document.getElementById('resNama').innerText = namaDariMaster; // Nama asli dari MASTER
     document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resStatus').innerText = data.status;
-    document.getElementById('resSisa').innerText = "6"; // Simulasi angka stok akhir
+    document.getElementById('resSisa').innerText = stokAkhir; // Stok terbaru dari MASTER
 
-    // Transisi halaman
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
 }
+
 
 function resetHalaman() {
     document.getElementById('inventoryForm').reset();
