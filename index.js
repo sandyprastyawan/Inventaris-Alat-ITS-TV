@@ -116,7 +116,7 @@ kodeInput.addEventListener('input', function() {
         // Pindahkan fokus ke 'jumlah_alat' setelah data kode terisi lengkap
         const jumlahInput = document.getElementById('jumlah_alat');
         if (jumlahInput) {
-            jumlahInput.focus();
+            jumlahInput.change();
         }
     }
 });
