@@ -23,7 +23,7 @@
             <form id="inventoryForm">
                 <div class="input-row">
                     <label>Kode Alat</label>
-                    <input type="text" id="kode_alat" placeholder="Menunggu scan..." autofocus required autocomplete="off">
+                    <input type="text" id="kode_alat" class="scanner-input" placeholder="Input kode melalui scanner..." required autofocus autocomplete="off">
                 </div>
 
                 <div class="input-row">
@@ -54,7 +54,7 @@
         <div id="resultPage" class="hidden">
             <div class="header-result">
                 
-                <h3 class="success-title">✅ Update Berhasil</h3>
+                <h3 id="resJudul" class="text-xl font-bold text-center mb-4">Update Berhasil</h3>
             </div>
 
             <div class="result-table">
@@ -71,6 +71,10 @@
                     <span class="res-value" id="resKode"></span>
                 </div>
                 <div class="res-row">
+                    <span class="res-label">Letak Alat</span>
+                    <span class="res-value" id="resPosisi"></span>
+                </div>
+                <div class="res-row">
                     <span class="res-label">Check</span>
                     <span class="res-value" id="resStatus"></span>
                 </div>
@@ -78,8 +82,7 @@
                     <span class="res-label">Jumlah</span>
                     <span class="res-value" id="resJumlah"></span>
                 </div>
-            </div>
-
+                
             <div class="stok-box">
                 <span>Stok Alat</span>
                 <span id="resSisa" class="stok-count">0</span>

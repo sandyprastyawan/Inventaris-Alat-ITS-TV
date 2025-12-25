@@ -6,7 +6,7 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
 
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRfRqQ5Y-aKoCSv7DG6gSrwKxDaVV2xhagwDNyOYCi4YTpJf2n_LnS1psTwOlzVRBhyg/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx31bZnXhIFkRvoSCdJTnertxHV1uSKRWEOmelo8OVtf_-QKdWWXcSRkIz0wBPmUksqKw/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
@@ -33,9 +33,12 @@ async function handleFormSubmit() {
 
         if (result.success) {
             // result.namaBarang diambil dari MASTER, result.stokSisa adalah hasil hitungan
-            tampilkanHasil(payload, result.namaBarang, result.stokSisa, payload.crew);
+            tampilkanHasil(payload, result.namaBarang, result.stokSisa, payload.crew, result.posisi);
         } else {
-            throw new Error(result.error);
+            // PERINGATAN ALAT TIDAK TERSEDIA
+            alert("⚠️ PERINGATAN: " + result.message);
+            btn.disabled = false;
+            btn.innerText = "SUBMIT DATA";
         }
     } catch (error) {
         console.error("Error:", error);
@@ -45,10 +48,20 @@ async function handleFormSubmit() {
     }
 }
 
-function tampilkanHasil(data, namaAlat, stokSisa, namaCrew) {
+function tampilkanHasil(data, namaAlat, stokSisa, namaCrew, posisi) {
+
+    const judulElemen = document.getElementById('resJudul');
+    if (data.status === "IN") {
+        judulElemen.innerText = "✅ Check In Berhasil";
+        judulElemen.style.color = "#10b981"; // Warna Hijau
+    } else {
+        judulElemen.innerText = "✅ Check Out Berhasil";
+        judulElemen.style.color = "#10b981"; // Warna Merah (opsional)
+    }
     // Memasukkan data ke ID yang benar agar tidak undefined
     document.getElementById('resNama').innerText = namaAlat; 
     document.getElementById('resKode').innerText = data.kode;
+    document.getElementById('resPosisi').innerText = posisi; // Tampilkan posisi
     document.getElementById('resStatus').innerText = data.status;
     document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resSisa').innerText = stokSisa;
@@ -56,6 +69,10 @@ function tampilkanHasil(data, namaAlat, stokSisa, namaCrew) {
 
     const elementCrew = document.getElementById('resCrew');
     if (elementCrew) elementCrew.innerText = namaCrew; 
+
+    const elementPosisi = document.getElementById('resPosisi');
+    if (elementPosisi) elementPosisi.innerText = posisi; // letakAlat diambil dari argumen ke-5
+    
     // Pindah halaman
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
@@ -63,26 +80,28 @@ function tampilkanHasil(data, namaAlat, stokSisa, namaCrew) {
 
 
 
+const inputKode = document.getElementById('kode_alat');
 
-const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
+        
+inputKode.addEventListener('input', function() {
+    // 1. Data dari scanner otomatis muncul di sini karena scanner 'mengetik' ke dalam field
+    const value = this.value;
 
-kodeInput.addEventListener('change', function() {
-    const value = kodeInput.value;
-        
-       if (value) {
-        // JIKA SCANNER MENGHASILKAN FORMAT: KODE|NAMA
-        if (value.includes('|')) {
-            const parts = value.split('|');
-            kodeInput.value = parts[0]; // Isi Kode
-            if (namaInput) namaInput.value = parts[1]; // Isi Nama
-        }
-        
-        // Pindahkan fokus ke 'jumlah_alat' setelah data kode terisi lengkap
-        const jumlahInput = document.getElementById('jumlah_alat');
-        if (jumlahInput) {
-            jumlahInput.focus();
-        }
+    // 2. Jika kode mengandung pemisah '|' (dari QR lama), kita pecah secara otomatis
+    if (value.includes('|')) {
+        const parts = value.split('|');
+        this.value = parts[0]; // Kode tetap tampil di kolom
+        document.getElementById('nama_alat').value = parts[1]; // Nama alat terisi
     }
+
+    // 3. Pindah fokus otomatis ke kolom berikutnya tanpa tekan ENTER
+    // Kita beri jeda sedikit agar scanner selesai 'mengetik' semua karakter
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+        if (this.value.length > 0) {
+            inputCrew.focus(); // Pindah otomatis ke kolom Nama Crew
+        }
+    }, 500); // Jeda 500ms
 });
 
 function resetHalaman() {
@@ -93,3 +112,5 @@ function resetHalaman() {
     const btn = document.getElementById('submitBtn');
     btn.innerText = "SUBMIT DATA";
         btn.disabled = false;}
+
+

@@ -205,3 +205,8 @@ input:focus, select:focus {
         width: 80px;
     }
 }
+
+.scanner-input {
+    caret-color: transparent; /* Menghilangkan garis kursor kedip */
+    user-select: none;        /* Mencegah user memblok teks */
+}
