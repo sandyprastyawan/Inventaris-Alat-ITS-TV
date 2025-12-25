@@ -6,7 +6,7 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
 
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTf6xR2x2wMtaXD6XYnRyj97sTvkAiy3rPXoJX39UPEJ2tP8G2GUsTEDIrEfgGo8uA5g/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuB-9Yg5iezRz5sW0bfrRU0Y8gjnd9Up5HfaFIUiSb8X1uP0ZgfYG9JCKe1czkOLoMUA/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
@@ -24,34 +24,35 @@ async function handleFormSubmit() {
             method: 'POST',
             body: JSON.stringify(payload)
         });
+        
+        // Cek jika respon ok
+        if (!response.ok) throw new Error('Respon server gagal');
+        
         const result = await response.json();
 
         if (result.success) {
-            // Mengirim data input dan nilai stokSisa dari spreadsheet
-            tampilkanHasil(payload, result.stokSisa);
-            tampilkanHasil(payload, result.namaBarang);
+            // result.namaBarang diambil dari MASTER, result.stokSisa adalah hasil hitungan
+            tampilkanHasil(payload, result.namaBarang, result.stokSisa);
+        } else {
+            throw new Error(result.error);
         }
     } catch (error) {
         console.error("Error:", error);
-        alert("Gagal mengirim data. Cek koneksi atau URL Apps Script.");
+        alert("Gagal menampilkan hasil: " + error.message);
         btn.disabled = false;
         btn.innerText = "SUBMIT DATA";
     }
 }
 
 function tampilkanHasil(data, namaAlat, stokSisa) {
-    // Menampilkan Nama Barang di sebelah tulisan "Barang"
-    document.getElementById('resNama').innerText = namaBarang; 
-    
-    // Menampilkan Kode, Status, dan Jumlah
+    // Memasukkan data ke ID yang benar agar tidak undefined
+    document.getElementById('resNama').innerText = namaAlat; 
     document.getElementById('resKode').innerText = data.kode;
     document.getElementById('resStatus').innerText = data.status;
     document.getElementById('resJumlah').innerText = data.jumlah;
+    document.getElementById('resSisa').innerText = stokSisa; 
 
-    // Menampilkan Angka Stok Akhir di sebelah tulisan "Stok Akhir"
-    document.getElementById('resSisa').innerText = stokSisa;
-
-    // Transisi halaman
+    // Pindah halaman
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
 }
