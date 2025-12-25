@@ -50,7 +50,6 @@ async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
     const payload = {
         kode: document.getElementById('kode_alat').value,
-        nama: document.getElementById('nama_alat').value,
         jumlah: document.getElementById('jumlah_alat').value,
         status: document.getElementById('status').value
     };
