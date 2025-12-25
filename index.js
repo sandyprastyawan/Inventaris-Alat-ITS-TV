@@ -3,58 +3,7 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
     handleFormSubmit();
 });
 
-async function handleFormSubmit() {
-    const btn = document.getElementById('submitBtn');
-    const payload = {
-        kode: document.getElementById('kode_alat').value,
-        jumlah: document.getElementById('jumlah_alat').value,
-        status: document.getElementById('status').value
-    };
 
-    btn.innerText = "Memproses...";
-    btn.disabled = true;
-
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-
-        if (result.success) {
-            // PENTING: Panggil satu kali dengan urutan yang benar
-            // payload (data input), result.namaBarang (dari MASTER), result.stokSisa (hasil hitung)
-            tampilkanHasil(payload, result.namaBarang, result.stokBaru);
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Gagal mengirim data.");
-        btn.disabled = false;
-        btn.innerText = "SUBMIT DATA";
-    }
-}
-
-function tampilkanHasil(data, namaDariMaster, stokAkhir) {
-    document.getElementById('resNama').innerText = namaDariMaster; // Nama asli dari MASTER
-    document.getElementById('resKode').innerText = data.kode;
-    document.getElementById('resJumlah').innerText = data.jumlah;
-    document.getElementById('resStatus').innerText = data.status;
-    document.getElementById('resSisa').innerText = stokBaru; // Stok terbaru dari MASTER
-
-    document.getElementById('formPage').classList.add('hidden');
-    document.getElementById('resultPage').classList.remove('hidden');
-}
-
-
-function resetHalaman() {
-    document.getElementById('inventoryForm').reset();
-    document.getElementById('formPage').classList.remove('hidden');
-    document.getElementById('resultPage').classList.add('hidden');
-    
-    const btn = document.getElementById('submitBtn');
-    btn.innerText = "SUBMIT DATA";
-    btn.disabled = false;
-}
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9KlQYrAVL-1lGxKTnfn7jM-r29ANfpPwDGbUdKvUihVDj5ZMONq23Cc0hIWByj7fOQg/exec"; 
@@ -108,6 +57,8 @@ function tampilkanHasil(data, namaAlat, stokSisa) {
 }
 
 
+
+
 const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
 
 kodeInput.addEventListener('change', function() {
@@ -128,3 +79,12 @@ kodeInput.addEventListener('change', function() {
         }
     }
 });
+
+function resetHalaman() {
+    document.getElementById('inventoryForm').reset();
+    document.getElementById('formPage').classList.remove('hidden');
+    document.getElementById('resultPage').classList.add('hidden');
+    
+    const btn = document.getElementById('submitBtn');
+    btn.innerText = "SUBMIT DATA";
+        btn.disabled = false;}
