@@ -102,7 +102,7 @@ function tampilkanHasil(data, stokSisa) {
 
 const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
 
-kodeInput.addEventListener('input', function() {
+kodeInput.addEventListener('change', function() {
     const value = kodeInput.value;
         
        if (value) {
@@ -116,7 +116,7 @@ kodeInput.addEventListener('input', function() {
         // Pindahkan fokus ke 'jumlah_alat' setelah data kode terisi lengkap
         const jumlahInput = document.getElementById('jumlah_alat');
         if (jumlahInput) {
-            jumlahInput.change();
+            jumlahInput.focus();
         }
     }
 });
