@@ -90,19 +90,17 @@ async function handleFormSubmit() {
     }
 }
 
-function tampilkanHasil(data, namaAlat, stokAkhir) {
-    // 1. Isi Nama Barang (menggantikan 'undefined')
-    const elementNama = document.getElementById('resNama');
-    if (elementNama) elementNama.innerText = namaBarang;
-
-    // 2. Isi Kode, Jumlah, dan Status
+function tampilkanHasil(data, namaAlat, stokSisa) {
+    // Menampilkan Nama Barang di sebelah tulisan "Barang"
+    document.getElementById('resNama').innerText = namaAlat; 
+    
+    // Menampilkan Kode, Status, dan Jumlah
     document.getElementById('resKode').innerText = data.kode;
-    document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resStatus').innerText = data.status;
+    document.getElementById('resJumlah').innerText = data.jumlah;
 
-    // 3. Isi Stok Akhir (menggantikan 'A73')
-    const elementSisa = document.getElementById('resSisa');
-    if (elementSisa) elementSisa.innerText = stokAkhir;
+    // Menampilkan Angka Stok Akhir di sebelah tulisan "Stok Akhir"
+    document.getElementById('resSisa').innerText = stokSisa;
 
     // Transisi halaman
     document.getElementById('formPage').classList.add('hidden');
