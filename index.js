@@ -57,7 +57,7 @@ function resetHalaman() {
 }
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJ7eGgLLkGacT4c--BPeeoO1sBbpnS9f_NkL8AAwHDYHWO3v0V5sLLiCcLfV-a4Yg8Gg/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9KlQYrAVL-1lGxKTnfn7jM-r29ANfpPwDGbUdKvUihVDj5ZMONq23Cc0hIWByj7fOQg/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
