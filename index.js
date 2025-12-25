@@ -3,114 +3,128 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
     handleFormSubmit();
 });
 
-
-
-// Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx31bZnXhIFkRvoSCdJTnertxHV1uSKRWEOmelo8OVtf_-QKdWWXcSRkIz0wBPmUksqKw/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMpDPoGF5HmRHhFWBHAzLPA6ZT2-q_4DlKI9KsOkd7T0wCxtnaaREfkc5wg5Hcrz2low/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
-    const payload = {
-        kode: document.getElementById('kode_alat').value,
-        jumlah: document.getElementById('jumlah_alat').value,
-        status: document.getElementById('status').value,
-        crew : document.getElementById('nama_crew').value,
-    };
-
-    btn.innerText = "Memproses...";
+    btn.innerText = "Mengambil Foto & Memproses..."; 
     btn.disabled = true;
 
     try {
+        let fotoData = "";
+        try {
+            // Optimasi 1: Turunkan kualitas foto ke 0.3 agar payload ringan
+            fotoData = await tangkapFoto();
+            console.log("Foto berhasil ditangkap, ukuran Base64: " + fotoData.length);
+        } catch (camErr) {
+            console.error("Gagal akses kamera:", camErr);
+            alert("⚠️ Gagal mengambil foto. Pastikan kamera diizinkan.");
+            btn.disabled = false;
+            btn.innerText = "SUBMIT DATA";
+            return; 
+        }
+
+        const payload = {
+            kode: document.getElementById('kode_alat').value,
+            status: document.getElementById('status').value,
+            crew: document.getElementById('nama_crew').value,
+            foto: fotoData 
+        };
+
+        // Optimasi 2: Gunakan mode 'no-cors' atau pastikan header sesuai jika diperlukan
+        // Namun fetch standar biasanya cukup jika Apps Script mengembalikan ContentService
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify(payload)
         });
         
-        // Cek jika respon ok
-        if (!response.ok) throw new Error('Respon server gagal');
+        // Optimasi 3: Cek teks respon terlebih dahulu sebelum parsing JSON
+        const responseText = await response.text();
+        console.log("Respon Server:", responseText);
         
-        const result = await response.json();
+        const result = JSON.parse(responseText);
 
         if (result.success) {
-            // result.namaBarang diambil dari MASTER, result.stokSisa adalah hasil hitungan
-            tampilkanHasil(payload, result.namaBarang, result.stokSisa, payload.crew, result.posisi);
+            tampilkanHasil(payload, result.namaBarang, result.statusUnit, payload.crew, result.posisi);
         } else {
-            // PERINGATAN ALAT TIDAK TERSEDIA
             alert("⚠️ PERINGATAN: " + result.message);
-            btn.disabled = false;
-            btn.innerText = "SUBMIT DATA";
+            resetTombol();
         }
     } catch (error) {
-        console.error("Error:", error);
-        alert("Gagal menampilkan hasil: " + error.message);
-        btn.disabled = false;
-        btn.innerText = "SUBMIT DATA";
+        console.error("Detail Error:", error);
+        alert("Gagal menghubungi server. Kemungkinan penyebab:\n1. Ukuran foto terlalu besar\n2. Izin Drive belum di-deploy ke 'New Version'");
+        resetTombol();
     }
 }
 
-function tampilkanHasil(data, namaAlat, stokSisa, namaCrew, posisi) {
+function resetTombol() {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.innerText = "SUBMIT DATA";
+}
 
-    const judulElemen = document.getElementById('resJudul');
-    if (data.status === "IN") {
-        judulElemen.innerText = "✅ Check In Berhasil";
-        judulElemen.style.color = "#10b981"; // Warna Hijau
-    } else {
-        judulElemen.innerText = "✅ Check Out Berhasil";
-        judulElemen.style.color = "#10b981"; // Warna Merah (opsional)
-    }
-    // Memasukkan data ke ID yang benar agar tidak undefined
-    document.getElementById('resNama').innerText = namaAlat; 
-    document.getElementById('resKode').innerText = data.kode;
-    document.getElementById('resPosisi').innerText = posisi; // Tampilkan posisi
-    document.getElementById('resStatus').innerText = data.status;
-    document.getElementById('resJumlah').innerText = data.jumlah;
-    document.getElementById('resSisa').innerText = stokSisa;
-    document.getElementById('resCrew').innerText = namaCrew;
-
-    const elementCrew = document.getElementById('resCrew');
-    if (elementCrew) elementCrew.innerText = namaCrew; 
-
-    const elementPosisi = document.getElementById('resPosisi');
-    if (elementPosisi) elementPosisi.innerText = posisi; // letakAlat diambil dari argumen ke-5
+async function tangkapFoto() {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } }); // Batasi resolusi
+    const video = document.createElement('video');
+    video.srcObject = stream;
     
-    // Pindah halaman
+    await new Promise((resolve) => video.onloadedmetadata = resolve);
+    await video.play();
+
+    const canvas = document.createElement('canvas');
+    // Kecilkan resolusi kanvas agar data Base64 tidak terlalu panjang
+    canvas.width = 400; 
+    canvas.height = 300;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Optimasi: Kualitas 0.3 (30%) sangat cukup untuk bukti foto dan sangat ringan
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.3); 
+    
+    stream.getTracks().forEach(track => track.stop());
+    return dataUrl.split(',')[1]; 
+}
+
+// --- Fungsi tampilkanHasil, Input, Reset (Tetap Sama) ---
+function tampilkanHasil(data, namaAlat, statusUnit, namaCrew, posisi) {
+    const judulElemen = document.getElementById('resJudul');
+    judulElemen.innerText = data.status === "IN" ? "✅ Check In Berhasil" : "✅ Check Out Berhasil";
+    judulElemen.style.color = "#10b981"; 
+
+    if(document.getElementById('resNama')) document.getElementById('resNama').innerText = namaAlat; 
+    if(document.getElementById('resKode')) document.getElementById('resKode').innerText = data.kode;
+    if(document.getElementById('resPosisi')) document.getElementById('resPosisi').innerText = posisi;
+    if(document.getElementById('resStatus')) document.getElementById('resStatus').innerText = data.status;
+    if(document.getElementById('resCrew')) document.getElementById('resCrew').innerText = namaCrew;
+
+    const elementSisa = document.getElementById('resSisa');
+    if (elementSisa) {
+        elementSisa.innerText = statusUnit;
+        elementSisa.style.color = (statusUnit === "Tersedia") ? "#10b981" : "#ef4444";
+    }
+    
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
 }
 
-
-
 const inputKode = document.getElementById('kode_alat');
+const inputCrew = document.getElementById('nama_crew'); 
 
-        
 inputKode.addEventListener('input', function() {
-    // 1. Data dari scanner otomatis muncul di sini karena scanner 'mengetik' ke dalam field
     const value = this.value;
-
-    // 2. Jika kode mengandung pemisah '|' (dari QR lama), kita pecah secara otomatis
     if (value.includes('|')) {
         const parts = value.split('|');
-        this.value = parts[0]; // Kode tetap tampil di kolom
-        document.getElementById('nama_alat').value = parts[1]; // Nama alat terisi
+        this.value = parts[0]; 
+        if(document.getElementById('nama_alat')) document.getElementById('nama_alat').value = parts[1]; 
     }
-
-    // 3. Pindah fokus otomatis ke kolom berikutnya tanpa tekan ENTER
-    // Kita beri jeda sedikit agar scanner selesai 'mengetik' semua karakter
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-        if (this.value.length > 0) {
-            inputCrew.focus(); // Pindah otomatis ke kolom Nama Crew
-        }
-    }, 500); // Jeda 500ms
+        if (this.value.length > 0 && inputCrew) inputCrew.focus(); 
+    }, 500);
 });
 
 function resetHalaman() {
     document.getElementById('inventoryForm').reset();
     document.getElementById('formPage').classList.remove('hidden');
     document.getElementById('resultPage').classList.add('hidden');
-    
-    const btn = document.getElementById('submitBtn');
-    btn.innerText = "SUBMIT DATA";
-        btn.disabled = false;}
-
-
+    resetTombol();
+}
