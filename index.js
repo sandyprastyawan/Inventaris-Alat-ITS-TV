@@ -22,7 +22,8 @@ async function handleFormSubmit() {
         const result = await response.json();
 
         if (result.success) {
-            // result.namaBarang dan result.stokSisa diambil dari sheet MASTER melalui doPost
+            // PENTING: Panggil satu kali dengan urutan yang benar
+            // payload (data input), result.namaBarang (dari MASTER), result.stokSisa (hasil hitung)
             tampilkanHasil(payload, result.namaBarang, result.stokSisa);
         }
     } catch (error) {
@@ -89,16 +90,25 @@ async function handleFormSubmit() {
     }
 }
 
-function tampilkanHasil(data, stokSisa) {
-    document.getElementById('resKode').innerText = data.kode;
-    document.getElementById('resNama').innerText = data.nama;
-    document.getElementById('resJumlah').innerText = data.jumlah;
-    document.getElementById('resStatus').innerText = data.status; // Menampilkan IN/OUT
-    document.getElementById('resSisa').innerText = stokSisa; // Menampilkan angka dari spreadsheet
+function tampilkanHasil(data, namaAlat, stokAkhir) {
+    // 1. Isi Nama Barang (menggantikan 'undefined')
+    const elementNama = document.getElementById('resNama');
+    if (elementNama) elementNama.innerText = namaAlat;
 
+    // 2. Isi Kode, Jumlah, dan Status
+    document.getElementById('resKode').innerText = data.kode;
+    document.getElementById('resJumlah').innerText = data.jumlah;
+    document.getElementById('resStatus').innerText = data.status;
+
+    // 3. Isi Stok Akhir (menggantikan 'A73')
+    const elementSisa = document.getElementById('resSisa');
+    if (elementSisa) elementSisa.innerText = stokAkhir;
+
+    // Transisi halaman
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
 }
+
 
 const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
 

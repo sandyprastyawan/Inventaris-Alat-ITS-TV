@@ -43,29 +43,21 @@
             </form>
         </div>
 
-        <div id="resultPage" class="card hidden">
+        <div id="resultPage" class="hidden">
             <div class="header-result">
                 
                 <h3 class="success-title">✅ Update Berhasil</h3>
             </div>
 
             <div class="result-table">
-                <div class="res-row">
-                    <span class="res-label">Barang</span>
-                    <span class="res-value" id="resNama"></span>
-                </div>
-                <div class="res-row">
-                    <span class="res-label">Kode</span>
-                    <span class="res-value" id="resKode"></span>
-                </div>
-                <div class="res-row">
-                    <span class="res-label">Check</span>
-                    <span class="res-value" id="resStatus"></span>
-                </div>
-                <div class="res-row">
-                    <span class="res-label">Jumlah</span>
-                    <span class="res-value" id="resJumlah"></span>
-                </div>
+                <p>Barang: <span id="resNama">Menunggu...</span></p> <p>Kode: <span id="resKode"></span></p>
+    <p>Check: <span id="resStatus"></span></p>
+    <p>Jumlah: <span id="resJumlah"></span></p>
+    
+    <div class="stok-box">
+        Stok Akhir: <span id="resSisa">0</span> </div>
+    
+    <button onclick="resetHalaman()">SUBMIT LAGI</button>
             </div>
 
             <div class="stok-box">
