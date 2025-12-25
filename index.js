@@ -93,7 +93,5 @@ const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
 kodeInput.addEventListener('input', function() {
     const value = kodeInput.value;
         
-        // Opsional: pindahkan fokus kursor ke kolom 'Jumlah Alat'
-        document.getElementById('jumlah_alat').focus();
-    }
+}
 );
