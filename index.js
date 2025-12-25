@@ -88,12 +88,20 @@ function tampilkanHasil(data, stokSisa) {
     document.getElementById('resultPage').classList.remove('hidden');
 }
 
-const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
+const inputKode = document.getElementById('kode_alat');
+const inputNama = document.getElementById('nama_alat');
 
-kodeInput.addEventListener('input', function() {
-    const value = kodeInput.value;
+inputKode.addEventListener('change', function() {
+    const kode = inputKode.value;
+    
+    if (kode) {
+        inputNama.value = "Mencari data..."; // Status sementara
         
-        // Opsional: pindahkan fokus kursor ke kolom 'Jumlah Alat'
-        document.getElementById('jumlah_alat').focus();
+        // Memanggil fungsi getNamaAlat yang ada di Code.gs
+        google.script.run.withSuccessHandler(function(nama) {
+            inputNama.value = nama;
+            // Pindahkan kursor ke jumlah alat secara otomatis
+            document.getElementById('jumlah_alat').focus();
+        }).getNamaAlat(kode);
     }
-);
+});
