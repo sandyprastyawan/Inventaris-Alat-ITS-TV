@@ -23,7 +23,6 @@ async function handleFormSubmit() {
             btn.innerText = "SUBMIT DATA";
             return; 
         }
-
         const payload = {
             kode: document.getElementById('kode_alat').value,
             status: document.getElementById('status').value,
