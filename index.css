@@ -89,8 +89,8 @@ input:focus, select:focus {
 .btn-primary {
     width: 100%;
     padding: 14px;
-    background-color: #ebf2fa;
-    color: #5d6d7e;
+    background-color: var(--primary-blue);
+    color: white;
     border: none;
     border-radius: 10px;
     font-weight: 600;
