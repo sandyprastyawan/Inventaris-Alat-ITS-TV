@@ -190,7 +190,6 @@ input:focus, select:focus {
     justify-content: center; /* Mengetengahkan secara horizontal */
     margin-bottom: 40px;    /* Memberi jarak ke judul */
 }
-
 /* Pengaturan Ukuran Logo */
 .company-logo {
     width: 120px;           /* Atur lebar logo di sini */
