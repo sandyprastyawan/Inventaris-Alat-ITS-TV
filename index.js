@@ -35,8 +35,8 @@ async function handleFormSubmit() {
 }
 
 function tampilkanHasil(data, namaDariMaster, stokAkhir) {
-    document.getElementById('resKode').innerText = data.kode;
     document.getElementById('resNama').innerText = namaDariMaster; // Nama asli dari MASTER
+    document.getElementById('resKode').innerText = data.kode;
     document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resStatus').innerText = data.status;
     document.getElementById('resSisa').innerText = stokAkhir; // Stok terbaru dari MASTER
@@ -93,7 +93,7 @@ async function handleFormSubmit() {
 function tampilkanHasil(data, namaAlat, stokAkhir) {
     // 1. Isi Nama Barang (menggantikan 'undefined')
     const elementNama = document.getElementById('resNama');
-    if (elementNama) elementNama.innerText = namaAlat;
+    if (elementNama) elementNama.innerText = namaBarang;
 
     // 2. Isi Kode, Jumlah, dan Status
     document.getElementById('resKode').innerText = data.kode;
