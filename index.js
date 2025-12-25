@@ -6,7 +6,7 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
 
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9KlQYrAVL-1lGxKTnfn7jM-r29ANfpPwDGbUdKvUihVDj5ZMONq23Cc0hIWByj7fOQg/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTf6xR2x2wMtaXD6XYnRyj97sTvkAiy3rPXoJX39UPEJ2tP8G2GUsTEDIrEfgGo8uA5g/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
