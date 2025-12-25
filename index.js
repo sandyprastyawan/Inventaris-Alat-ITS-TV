@@ -89,3 +89,20 @@ function tampilkanHasil(data, stokSisa) {
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
 }
+
+const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
+const namaInput = document.getElementById('nama_alat'); // Sesuaikan ID-nya
+
+kodeInput.addEventListener('input', function() {
+    const value = kodeInput.value;
+    
+    // Cek jika ada karakter pemisah '|'
+    if (value.includes('|')) {
+        const parts = value.split('|');
+        kodeInput.value = parts[0]; // Isi Kode Alat dengan bagian pertama
+        namaInput.value = parts[1]; // Isi Nama Alat dengan bagian kedua
+        
+        // Opsional: pindahkan fokus kursor ke kolom 'Jumlah Alat'
+        document.getElementById('jumlah_alat').focus();
+    }
+});
