@@ -67,6 +67,7 @@ async function handleFormSubmit() {
         if (result.success) {
             // Mengirim data input dan nilai stokSisa dari spreadsheet
             tampilkanHasil(payload, result.stokSisa);
+            tampilkanHasil(payload, result.namaBarang);
         }
     } catch (error) {
         console.error("Error:", error);
