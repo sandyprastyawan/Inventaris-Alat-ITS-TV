@@ -28,7 +28,7 @@ async function handleFormSubmit() {
 
         if (result.success) {
             // Mengirim data input dan nilai stokSisa dari spreadsheet
-            tampilkanHasil(payload, result.stokBaru);
+            tampilkanHasil(payload, result.stokSisa);
             tampilkanHasil(payload, result.namaBarang);
         }
     } catch (error) {
@@ -49,7 +49,7 @@ function tampilkanHasil(data, namaAlat, stokSisa) {
     document.getElementById('resJumlah').innerText = data.jumlah;
 
     // Menampilkan Angka Stok Akhir di sebelah tulisan "Stok Akhir"
-    document.getElementById('resSisa').innerText = stokBaru;
+    document.getElementById('resSisa').innerText = stokSisa;
 
     // Transisi halaman
     document.getElementById('formPage').classList.add('hidden');
