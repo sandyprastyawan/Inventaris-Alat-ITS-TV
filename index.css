@@ -188,7 +188,7 @@ input:focus, select:focus {
 .logo-wrapper {
     display: flex;
     justify-content: center; /* Mengetengahkan secara horizontal */
-    margin-bottom: 20px;    /* Memberi jarak ke judul */
+    margin-bottom: 40px;    /* Memberi jarak ke judul */
 }
 
 /* Pengaturan Ukuran Logo */
