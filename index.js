@@ -8,7 +8,6 @@ function handleFormSubmit() {
     
     const payload = {
         kode: document.getElementById('kode_alat').value,
-        nama: document.getElementById('nama_alat').value,
         jumlah: document.getElementById('jumlah_alat').value,
         status: document.getElementById('status').value
     };
@@ -25,7 +24,6 @@ function handleFormSubmit() {
 function tampilkanHasil(data) {
     // Isi data ke halaman hasil
     document.getElementById('resKode').innerText = data.kode;
-    document.getElementById('resNama').innerText = data.nama;
     document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resStatus').innerText = data.status;
     document.getElementById('resSisa').innerText = "6"; // Simulasi angka stok akhir
