@@ -9,7 +9,6 @@ async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
     btn.innerText = "Mengambil Foto & Memproses..."; 
     btn.disabled = true;
-
     try {
         let fotoData = "";
         try {
