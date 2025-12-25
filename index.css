@@ -25,15 +25,13 @@ body {
 .container {
     width: 100%;
     max-width: 480px;
-    padding: 20px;
-}
-
-.card {
     background: #ffffff;
     padding: 40px;
     border-radius: 24px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
+
+
 
 .header-section {
     margin-bottom: 30px;
@@ -115,14 +113,7 @@ input:focus, select:focus {
 }
 
 /* Result Styling */
-.hidden {
-    width: 100%;
-    max-width: 480px;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-}
+
 .header-result {
     text-align: center;
     margin-bottom:5px;
@@ -192,4 +183,25 @@ input:focus, select:focus {
 
 .hidden {
     display: none;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center; /* Mengetengahkan secara horizontal */
+    margin-bottom: 20px;    /* Memberi jarak ke judul */
+}
+
+/* Pengaturan Ukuran Logo */
+.company-logo {
+    width: 120px;           /* Atur lebar logo di sini */
+    height: auto;           /* Tinggi otomatis agar proporsi terjaga */
+    object-fit: contain;    /* Memastikan gambar tidak terpotong */
+    border-radius: 8px;     /* Opsional: membuat sudut logo agak melengkung */
+}
+
+/* Responsive: Ukuran logo lebih kecil di handphone */
+@media (max-width: 480px) {
+    .company-logo {
+        width: 80px;
+    }
 }

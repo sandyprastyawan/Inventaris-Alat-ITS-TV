@@ -6,14 +6,15 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
 
 
 // Ganti URL ini dengan URL Web App (GAS) yang baru setelah di-deploy
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuB-9Yg5iezRz5sW0bfrRU0Y8gjnd9Up5HfaFIUiSb8X1uP0ZgfYG9JCKe1czkOLoMUA/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRfRqQ5Y-aKoCSv7DG6gSrwKxDaVV2xhagwDNyOYCi4YTpJf2n_LnS1psTwOlzVRBhyg/exec"; 
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
     const payload = {
         kode: document.getElementById('kode_alat').value,
         jumlah: document.getElementById('jumlah_alat').value,
-        status: document.getElementById('status').value
+        status: document.getElementById('status').value,
+        crew : document.getElementById('nama_crew').value,
     };
 
     btn.innerText = "Memproses...";
@@ -32,7 +33,7 @@ async function handleFormSubmit() {
 
         if (result.success) {
             // result.namaBarang diambil dari MASTER, result.stokSisa adalah hasil hitungan
-            tampilkanHasil(payload, result.namaBarang, result.stokSisa);
+            tampilkanHasil(payload, result.namaBarang, result.stokSisa, payload.crew);
         } else {
             throw new Error(result.error);
         }
@@ -44,14 +45,17 @@ async function handleFormSubmit() {
     }
 }
 
-function tampilkanHasil(data, namaAlat, stokSisa) {
+function tampilkanHasil(data, namaAlat, stokSisa, namaCrew) {
     // Memasukkan data ke ID yang benar agar tidak undefined
     document.getElementById('resNama').innerText = namaAlat; 
     document.getElementById('resKode').innerText = data.kode;
     document.getElementById('resStatus').innerText = data.status;
     document.getElementById('resJumlah').innerText = data.jumlah;
-    document.getElementById('resSisa').innerText = stokSisa; 
+    document.getElementById('resSisa').innerText = stokSisa;
+    document.getElementById('resCrew').innerText = namaCrew;
 
+    const elementCrew = document.getElementById('resCrew');
+    if (elementCrew) elementCrew.innerText = namaCrew; 
     // Pindah halaman
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');

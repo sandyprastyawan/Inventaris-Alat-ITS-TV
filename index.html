@@ -10,6 +10,10 @@
 <body>
 
     <div class="container">
+        <div class="logo-wrapper">
+        <img src="logo.png.png" alt="Logo Perusahaan" class="company-logo">
+        </div>
+
         <div id="formPage" class="card">
             <div class="header-section">
                 <h2>Inventaris alat</h2>
@@ -21,7 +25,6 @@
                     <label>Kode Alat</label>
                     <input type="text" id="kode_alat" placeholder="Menunggu scan..." autofocus required autocomplete="off">
                 </div>
-
 
                 <div class="input-row">
                     <label>Jumlah Alat</label>
@@ -37,6 +40,11 @@
                     </select>
                 </div>
 
+                <div class="input-row">
+                     <label>Nama Crew</label>
+                     <input type="text" id="nama_crew" placeholder="Masukkan nama crew" required>
+                </div>
+
                 <div class="button-group">
                     <button type="submit" id="submitBtn" class="btn-primary">SUBMIT DATA</button>
                 </div>
@@ -50,6 +58,10 @@
             </div>
 
             <div class="result-table">
+                <div class="res-row">
+                    <span class="res-label">Crew</span>
+                    <span class="res-value" id="resCrew"></span>
+                </div>
                 <div class="res-row">
                     <span class="res-label">Alat</span>
                     <span class="res-value" id="resNama"></span>
@@ -69,7 +81,7 @@
             </div>
 
             <div class="stok-box">
-                <span>Stok Akhir</span>
+                <span>Stok Alat</span>
                 <span id="resSisa" class="stok-count">0</span>
             </div>
             
