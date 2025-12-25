@@ -93,5 +93,18 @@ const kodeInput = document.getElementById('kode_alat'); // Sesuaikan ID-nya
 kodeInput.addEventListener('input', function() {
     const value = kodeInput.value;
         
-}
-);
+       if (value) {
+        // JIKA SCANNER MENGHASILKAN FORMAT: KODE|NAMA
+        if (value.includes('|')) {
+            const parts = value.split('|');
+            kodeInput.value = parts[0]; // Isi Kode
+            if (namaInput) namaInput.value = parts[1]; // Isi Nama
+        }
+        
+        // Pindahkan fokus ke 'jumlah_alat' setelah data kode terisi lengkap
+        const jumlahInput = document.getElementById('jumlah_alat');
+        if (jumlahInput) {
+            jumlahInput.focus();
+        }
+    }
+});
