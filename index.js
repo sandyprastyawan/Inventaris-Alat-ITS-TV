@@ -24,7 +24,7 @@ async function handleFormSubmit() {
         if (result.success) {
             // PENTING: Panggil satu kali dengan urutan yang benar
             // payload (data input), result.namaBarang (dari MASTER), result.stokSisa (hasil hitung)
-            tampilkanHasil(payload, result.namaBarang, result.stokSisa);
+            tampilkanHasil(payload, result.namaBarang, result.stokBaru);
         }
     } catch (error) {
         console.error("Error:", error);
@@ -39,7 +39,7 @@ function tampilkanHasil(data, namaDariMaster, stokAkhir) {
     document.getElementById('resKode').innerText = data.kode;
     document.getElementById('resJumlah').innerText = data.jumlah;
     document.getElementById('resStatus').innerText = data.status;
-    document.getElementById('resSisa').innerText = stokAkhir; // Stok terbaru dari MASTER
+    document.getElementById('resSisa').innerText = stokBaru; // Stok terbaru dari MASTER
 
     document.getElementById('formPage').classList.add('hidden');
     document.getElementById('resultPage').classList.remove('hidden');
@@ -79,7 +79,7 @@ async function handleFormSubmit() {
 
         if (result.success) {
             // Mengirim data input dan nilai stokSisa dari spreadsheet
-            tampilkanHasil(payload, result.stokSisa);
+            tampilkanHasil(payload, result.stokBaru);
             tampilkanHasil(payload, result.namaBarang);
         }
     } catch (error) {
@@ -92,7 +92,7 @@ async function handleFormSubmit() {
 
 function tampilkanHasil(data, namaAlat, stokSisa) {
     // Menampilkan Nama Barang di sebelah tulisan "Barang"
-    document.getElementById('resNama').innerText = namaAlat; 
+    document.getElementById('resNama').innerText = namaBarang; 
     
     // Menampilkan Kode, Status, dan Jumlah
     document.getElementById('resKode').innerText = data.kode;
@@ -100,7 +100,7 @@ function tampilkanHasil(data, namaAlat, stokSisa) {
     document.getElementById('resJumlah').innerText = data.jumlah;
 
     // Menampilkan Angka Stok Akhir di sebelah tulisan "Stok Akhir"
-    document.getElementById('resSisa').innerText = stokSisa;
+    document.getElementById('resSisa').innerText = stokBaru;
 
     // Transisi halaman
     document.getElementById('formPage').classList.add('hidden');
