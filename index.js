@@ -51,7 +51,6 @@ async function handleFormSubmit() {
         resetTombol();
     }
 }
-
 function resetTombol() {
     const btn = document.getElementById('submitBtn');
     btn.disabled = false;
