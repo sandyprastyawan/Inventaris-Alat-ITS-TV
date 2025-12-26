@@ -27,7 +27,6 @@ async function handleFormSubmit() {
             status: document.getElementById('status').value,
             foto: fotoData 
         };
-
         // Optimasi 2: Gunakan mode 'no-cors' atau pastikan header sesuai jika diperlukan
         // Namun fetch standar biasanya cukup jika Apps Script mengembalikan ContentService
         const response = await fetch(SCRIPT_URL, {
