@@ -4,7 +4,6 @@ document.getElementById('inventoryForm').addEventListener('submit', function(e) 
 });
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMpDPoGF5HmRHhFWBHAzLPA6ZT2-q_4DlKI9KsOkd7T0wCxtnaaREfkc5wg5Hcrz2low/exec"; 
-
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
     btn.innerText = "Siapkan pose terbaik 📸..."; 
