@@ -32,8 +32,7 @@ async function handleFormSubmit() {
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify(payload)
-        });
-        
+        }); 
         // Optimasi 3: Cek teks respon terlebih dahulu sebelum parsing JSON
         const responseText = await response.text();
         console.log("Respon Server:", responseText);
