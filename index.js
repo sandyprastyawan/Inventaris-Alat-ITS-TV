@@ -7,7 +7,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMpDPoGF5HmRHhFWBHA
 
 async function handleFormSubmit() {
     const btn = document.getElementById('submitBtn');
-    btn.innerText = "Mengambil Foto & Memproses..."; 
+    btn.innerText = "Siapkan pose terbaik 📸..."; 
     btn.disabled = true;
     try {
         let fotoData = "";
@@ -25,7 +25,6 @@ async function handleFormSubmit() {
         const payload = {
             kode: document.getElementById('kode_alat').value,
             status: document.getElementById('status').value,
-            crew: document.getElementById('nama_crew').value,
             foto: fotoData 
         };
 
@@ -43,7 +42,7 @@ async function handleFormSubmit() {
         const result = JSON.parse(responseText);
 
         if (result.success) {
-            tampilkanHasil(payload, result.namaBarang, result.statusUnit, payload.crew, result.posisi);
+            tampilkanHasil(payload, result.namaBarang, result.statusUnit, result.posisi);
         } else {
             alert("⚠️ PERINGATAN: " + result.message);
             resetTombol();
@@ -83,7 +82,7 @@ async function tangkapFoto() {
 }
 
 // --- Fungsi tampilkanHasil, Input, Reset (Tetap Sama) ---
-function tampilkanHasil(data, namaAlat, statusUnit, namaCrew, posisi) {
+function tampilkanHasil(data, namaAlat, statusUnit, posisi) {
     const judulElemen = document.getElementById('resJudul');
     judulElemen.innerText = data.status === "IN" ? "✅ Check In Berhasil" : "✅ Check Out Berhasil";
     judulElemen.style.color = "#10b981"; 
@@ -92,7 +91,6 @@ function tampilkanHasil(data, namaAlat, statusUnit, namaCrew, posisi) {
     if(document.getElementById('resKode')) document.getElementById('resKode').innerText = data.kode;
     if(document.getElementById('resPosisi')) document.getElementById('resPosisi').innerText = posisi;
     if(document.getElementById('resStatus')) document.getElementById('resStatus').innerText = data.status;
-    if(document.getElementById('resCrew')) document.getElementById('resCrew').innerText = namaCrew;
 
     const elementSisa = document.getElementById('resSisa');
     if (elementSisa) {
