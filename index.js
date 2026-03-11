@@ -102,15 +102,21 @@ const inputKode = document.getElementById('kode_alat');
 const inputCrew = document.getElementById('nama_crew'); 
 
 inputKode.addEventListener('input', function() {
-
-    const value = this.value.trim();
-
-    // Jika user sudah mengetik kode, otomatis pindah ke input berikutnya
+    const value = this.value;
+    if (value.includes('|')) {
+        const parts = value.split('|');
+        this.value = parts[0]; 
+        if(document.getElementById('nama_alat')) document.getElementById('nama_alat').value = parts[1]; 
+    }
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-        if (value.length > 0 && inputCrew) {
-            inputCrew.focus();
-        }
+        if (this.value.length > 0 && inputCrew) inputCrew.focus(); 
     }, 500);
-
 });
+
+function resetHalaman() {
+    document.getElementById('inventoryForm').reset();
+    document.getElementById('formPage').classList.remove('hidden');
+    document.getElementById('resultPage').classList.add('hidden');
+    resetTombol();
+}
